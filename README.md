@@ -14,4 +14,4 @@ Use: `python linguee.py [french word]`
 
 Linguee has [rules](http://www.linguee.com/english-french/page/termsAndConditions.php) about how its website is used.
 
-This code is obviously not fetching data from Linguee's API, as it does not have one yet. So it could stop working if the developers change the HTML tags, organization of the HTML output, etc.
+This code is obviously not fetching data from Linguee's API, as it does not have one yet. It could stop working if the developers change the HTML tags, organization of the HTML output, etc.
