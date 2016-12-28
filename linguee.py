@@ -1,45 +1,47 @@
 # linguee definition && examples scraper
 
-# TO DO (by order of importance):
-
-# 1) support unicode for FR-EN (and, by extension, other languages)
-# 2) fix example generation
-# 3) accept whatWord as an argument in the terminal process / make script available for use
-
-# to think about: better to use an API?
-
 import sys
 try:
-    from urllib.request import urlopen
+	from urllib.request import urlopen
 except ImportError:
-    from urllib2 import urlopen
+	from urllib2 import urlopen
 from urllib.parse import quote
 from bs4 import BeautifulSoup
 
-whatWord = quote("désamorçage")
-#print (whatWord)
+whatWord = quote(sys.argv[1])
 lingueeLink = "http://www.linguee.com/english-french/search?source=auto&query=" + whatWord
-
-print (lingueeLink)
 page = urlopen(lingueeLink)
 initial = BeautifulSoup(page, "html.parser")
 
-definition = initial.find('a', class_="dictLink featured")
-if definition is not None:
-	definition = initial.find('a', class_="dictLink featured").string
-else:
-	definition = "Word not found"
-example = initial.find('table', class_="result_table")
-left = []
-right = []
+def define():
+	definition = initial.find('a', class_="dictLink featured")
 
-# not working yet; need to investigate html.
+	if definition is not None:
+		definition = initial.find('a', class_="dictLink featured").get_text()
+	else:
+		definition = "Word not found"
+	return definition
 
-#for row in example.findAll("tr"):
-#	lefty = row.findAll('td', class_="sentence left")
-#	righty = row.findAll('td', class_="sentence right2")
-#	left.append(lefty[0].find(text=True))
-#	right.append(righty[0].find(text=True))
+def genExample():
 
-print (definition)
-#print (left, right)
+	example = initial.find('table', class_="result_table")
+
+	# left[0] in french ~ right[0] in english
+
+	left = [] # the french sentence array
+	right = [] # the corresponding english sentence array
+
+	for row in example.findAll("tr"):
+		lefty = row.find('td', class_="sentence left")
+		link1 = (lefty.find('div', class_="source_url_spacer")).get_text()
+		righty = row.find('td', class_="sentence right2")
+		link2 = (righty.find('div', class_="source_url_spacer")).get_text()
+		left.append((lefty.get_text()).replace("\n", " ").replace(link1,"").replace("\r", ""))
+		right.append((righty.get_text()).replace("\n", " ").replace(link2,"").replace("\r", ""))
+
+	sendExample = [left[0], right[0]] # send random examples? need to repurpose for context-based searches later.
+
+	return sendExample
+
+print (define())
+print (genExample())
