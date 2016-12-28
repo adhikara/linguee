@@ -43,5 +43,11 @@ def genExample():
 
 	return sendExample
 
-print (define())
-print (genExample())
+print ("DEFINITION: " + define())
+print ("")
+print ("EXAMPLE:")
+print ("")
+token = genExample()
+print ("FRENCH: " + token[0])
+print ("")
+print ("ENGLISH: " + token[1])
