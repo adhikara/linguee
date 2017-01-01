@@ -10,6 +10,8 @@ The code is set up to generate the definition and the first example from Linguee
 
 Use: `python linguee.py [french word]`
 
+Because of how Linguee works, you can also try `python linguee.py [english word]` to get the French translation. It is also possible to make this code able to pull translations for any language -- you need to simply change the website queried to `www.linguee.com`. However, note that you will need to modify the code to pull other features like what language the original text is in and things like that.
+
 #warning#
 
 Linguee has [rules](http://www.linguee.com/english-french/page/termsAndConditions.php) about how its website is used.
